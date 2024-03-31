@@ -68,7 +68,7 @@ export async function POST(req) {
                 message: "You are trying to reserve a booked date!"
             })
         }
-
+        console.log("hola mundo");
         const newReservation = await db.reservation.create({
             data: {
                 startDate,
@@ -79,7 +79,7 @@ export async function POST(req) {
                 userId: currentUser.id
             }
         })
-
+        console.log(newReservation);
         return NextResponse.json(newReservation)
     } catch (error) {
         return NextResponse.json(error)

@@ -13,7 +13,7 @@ export async function POST(req) {
     const sig = headers().get("stripe-signature")
 
     const body = await req.text()
-
+    console.log("hola mundooooooooooooooooooooooooo")
     let event
 
     try {
@@ -53,7 +53,25 @@ export async function POST(req) {
             data: reservationData
         })
 
-        // Send email functionality
-        return NextResponse.json(newReservation)
+        try {
+            const newReservation = await db.reservation.create({
+                data: reservationData
+            })
+
+            // Envía una respuesta con el objeto de reserva si la creación fue exitosa
+            return NextResponse.json(newReservation)
+        } catch (error) {
+            console.log("Error al crear la reserva")
+            // Si hubo un error al crear la reserva, maneja el error y envía una respuesta de error
+            return NextResponse.error({
+                error: "Error al crear la reserva"
+            })
+        }
+    } else {
+        console.log("no se pudo")
+        // Maneja otros tipos de eventos de webhook si es necesario
+        return NextResponse.error({
+            error: "Evento de webhook no reconocido"
+        })
     }
 }

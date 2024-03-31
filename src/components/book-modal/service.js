@@ -9,8 +9,9 @@ export const redirectToCheckout = async (
 ) => {
     try {
         const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
-
+        console.log("el stripe fue" )
         if (!stripe) throw new Error("Stripe failed to initialize")
+        console.log("el stripe fue" + stripe)
 
         const { data: { sessionId } } = await AXIOS_API.post('/stripe', {
             listing,
